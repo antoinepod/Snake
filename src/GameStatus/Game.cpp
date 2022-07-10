@@ -103,6 +103,10 @@ void Game::ClearMap() {
 }
 
 void Game::MoveSnake() {
+    if (_map[_headPos.first + _direction.first][_headPos.second + _direction.second] == 4) {
+        _tail.push_back(_tail[_tail.size() - 1]);
+        this->CreateApple();
+    }
     for (size_t i = _tail.size() - 1; i > 0; i--) {
         _tail[i] = _tail[i - 1];
     }
