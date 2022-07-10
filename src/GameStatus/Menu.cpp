@@ -5,21 +5,18 @@
 ** Menu.cpp
 */
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include "Menu.hpp"
 
 Menu::Menu() {
     _start = std::chrono::system_clock::now();
 
-    if (!_arcadeFont.loadFromFile("assets/arcade_classic.ttf")) {
-        std::cerr << "Failed to load 'assets/arcade_classic.ttf'" << std::endl;
+    if (!_arcadeFont.loadFromFile("assets/Fonts/arcade_classic.ttf")) {
+        std::cerr << "Failed to load 'assets/Fonts/arcade_classic.ttf'" << std::endl;
         exit(84);
     }
 
-    if (!_arialFont.loadFromFile("assets/JetBrainsMono.ttf")) {
-        std::cerr << "Failed to load 'assets/JetBrainsMono.ttf'" << std::endl;
+    if (!_arialFont.loadFromFile("assets/Fonts/JetBrainsMono.ttf")) {
+        std::cerr << "Failed to load 'assets/Fonts/JetBrainsMono.ttf'" << std::endl;
         exit(84);
     }
 
@@ -41,9 +38,9 @@ Menu::Menu() {
     _titleText.setOrigin(rect.left + rect.width / 2.0f, rect.top  + rect.height / 2.0f);
     _titleText.setPosition(WINDOW_WIDTH / 2.0f, 150);
 
-    std::ifstream file("assets/ascii_snake.txt");
+    std::ifstream file("assets/Images/ascii_snake.txt");
     if (!file) {
-        std::cerr << "Failed to load 'assets/ascii_snake.ttf'" << std::endl;
+        std::cerr << "Failed to load 'assets/Images/ascii_snake.ttf'" << std::endl;
         exit(84);
     }
     std::ostringstream ss;

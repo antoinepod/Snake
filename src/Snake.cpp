@@ -11,15 +11,17 @@ Snake::Snake() {
     _window = std::make_shared<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Snake");
     _currentGameStatus = GameStatus::MENU;
 
-    if (!_music.openFromFile("assets/music.ogg")) {
-        std::cerr << "Failed to load 'assets/music.ogg'" << std::endl;
+    if (!_music.openFromFile("assets/Audio/music.ogg")) {
+        std::cerr << "Failed to load 'assets/Audio/music.ogg'" << std::endl;
         exit(84);
     }
     _music.setLoop(true);
+    _music.setVolume(30.f);
     _music.play();
 
     _gameStatus[GameStatus::MENU] = std::make_shared<Menu>();
     _gameStatus[GameStatus::GAME] = std::make_shared<Game>();
+    _gameStatus[GameStatus::END] = std::make_shared<End>();
 }
 
 Snake::~Snake() {

@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <chrono>
 #include "IGameStatus.hpp"
 
 class Menu : public IGameStatus {

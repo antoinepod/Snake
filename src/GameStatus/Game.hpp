@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <chrono>
 #include "IGameStatus.hpp"
 
 class Game : public IGameStatus {
@@ -37,10 +36,10 @@ private:
     std::vector<std::pair<int, int>> _tail;
     std::pair<int, int> _direction;
     std::pair<int, int> _applePos;
+
+    bool _isSnakeAlive;
 };
 
 extern "C" {
-    extern void cpp_srand(unsigned int seed) {
-        return srand(seed);
-    }
+    extern void cpp_srand(unsigned int seed);
 }

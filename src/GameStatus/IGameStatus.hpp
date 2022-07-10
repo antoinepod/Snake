@@ -12,6 +12,10 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <memory>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <chrono>
 
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 1000

@@ -9,12 +9,13 @@ SRC =	src/Main.cpp	\
 		src/Snake.cpp	\
 		src/GameStatus/Menu.cpp	\
 		src/GameStatus/Game.cpp	\
+		src/GameStatus/End.cpp	\
 
 W_FLAGS	=	-W -Wall -Wextra
 
 SFML	=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-INCLUDE	=	-I../include/
+INCLUDE	=
 
 CPPFLAGS	=	$(INCLUDE) $(SFML) $(W_FLAGS)
 

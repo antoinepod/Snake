@@ -5,7 +5,6 @@
 ** Game.cpp
 */
 
-#include <iostream>
 #include "Game.hpp"
 
 Game::Game() {
@@ -34,11 +33,16 @@ Game::Game() {
     cpp_srand(std::time(nullptr));
 
     this->CreateApple();
+
+    _isSnakeAlive = true;
 }
 
 Game::~Game() = default;
 
 GameStatus Game::ManageInput(const std::shared_ptr<sf::RenderWindow> &window) {
+    if (!_isSnakeAlive)
+        return GameStatus::END;
+
     sf::Event event{};
 
     if (window->pollEvent(event)) {
@@ -113,6 +117,9 @@ void Game::MoveSnake() {
     _tail[0] = _headPos;
     _headPos.first += _direction.first;
     _headPos.second += _direction.second;
+
+    if (_map[_headPos.first][_headPos.second] == 1 || _map[_headPos.first][_headPos.second] == 3)
+        _isSnakeAlive = false;
 }
 
 void Game::CreateApple() {
@@ -126,5 +133,11 @@ void Game::CreateApple() {
             _applePos = {x, y};
             status = true;
         }
+    }
+}
+
+extern "C" {
+    extern void cpp_srand(unsigned int seed) {
+        return srand(seed);
     }
 }

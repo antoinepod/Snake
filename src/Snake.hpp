@@ -16,6 +16,7 @@
 #include "GameStatus/IGameStatus.hpp"
 #include "GameStatus/Menu.hpp"
 #include "GameStatus/Game.hpp"
+#include "GameStatus/End.hpp"
 
 class Snake
 {
