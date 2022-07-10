@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+.idea/
+snake
 
 # Compiled Object files
 *.slo
