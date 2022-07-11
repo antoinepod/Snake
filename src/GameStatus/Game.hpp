@@ -11,7 +11,7 @@
 
 class Game : public IGameStatus {
 public:
-    Game();
+    explicit Game(const std::shared_ptr<int>& score);
     ~Game() override;
 
     GameStatus ManageInput(const std::shared_ptr<sf::RenderWindow>& window) override;
@@ -26,7 +26,6 @@ private:
     std::chrono::duration<double> _elapsedTime{};
 
     sf::Font _arcadeFont;
-    sf::Text _scoreText;
 
     sf::RectangleShape _rectangle;
     std::map<int, sf::Color> _colors;
@@ -38,6 +37,20 @@ private:
     std::pair<int, int> _applePos;
 
     bool _isSnakeAlive;
+    bool _willSnakeTurn;
+
+    sf::Music _music;
+    bool _isSoundPlayed;
+
+    sf::SoundBuffer _buffer;
+    sf::Sound _eatSound;
+
+    sf::Sprite _apple;
+    sf::Texture _appleTexture;
+
+    std::shared_ptr<int> _score;
+    sf::Text _scoreText;
+    sf::Text _scoreValueText;
 };
 
 extern "C" {

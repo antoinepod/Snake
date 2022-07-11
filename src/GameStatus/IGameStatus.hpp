@@ -17,8 +17,8 @@
 #include <sstream>
 #include <chrono>
 
-#define WINDOW_WIDTH 1000
-#define WINDOW_HEIGHT 1000
+#define WINDOW_WIDTH 1680
+#define WINDOW_HEIGHT 1050
 
 #define START sf::Keyboard::Key::Space
 #define UP sf::Keyboard::Key::Up

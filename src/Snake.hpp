@@ -24,7 +24,6 @@ private:
     std::shared_ptr<sf::RenderWindow> _window;
     GameStatus _currentGameStatus;
 
-    sf::Music _music;
     std::map<GameStatus, std::shared_ptr<IGameStatus>> _gameStatus;
 public:
     Snake();

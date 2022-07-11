@@ -24,7 +24,10 @@ private:
     sf::Font _arcadeFont;
     sf::Font _arialFont;
 
-    sf::Text _startText;
     sf::Text _titleText;
     sf::Text _asciiSnake;
+
+    sf::Uint8 _transparency;
+    sf::Music _startMusic;
+    int _animationStatus;
 };

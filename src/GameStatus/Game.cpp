@@ -7,7 +7,14 @@
 
 #include "Game.hpp"
 
-Game::Game() {
+Game::Game(const std::shared_ptr<int>& score) {
+    if (!_music.openFromFile("assets/Audio/music.ogg")) {
+        std::cerr << "Failed to load 'assets/Audio/music.ogg'" << std::endl;
+        exit(84);
+    }
+    _music.setLoop(true);
+    _music.setVolume(30.f);
+
     this->ClearMap();
 
     _headPos = {8, 9};
@@ -21,11 +28,12 @@ Game::Game() {
     }
     _direction = {0, 1};
 
+    sf::Color headColor = {50, 150, 50, 200};
     _colors[0] = sf::Color::Black;
     _colors[1] = sf::Color::White;
-    _colors[2] = sf::Color::Blue;
-    _colors[3] = sf::Color::Green;
-    _colors[4] = sf::Color::Red;
+    _colors[3] = headColor;
+    _colors[2] = sf::Color::Green;
+    _colors[4] = sf::Color::Transparent;
 
     _start = std::chrono::system_clock::now();
 
@@ -35,28 +43,80 @@ Game::Game() {
     this->CreateApple();
 
     _isSnakeAlive = true;
+    _willSnakeTurn = false;
+    _isSoundPlayed = false;
+
+    if (!_buffer.loadFromFile("assets/Audio/eat_sound.ogg")) {
+        std::cerr << "Failed to load 'assets/Audio/eat_sound.ogg'" << std::endl;
+        exit(84);
+    }
+    _eatSound.setBuffer(_buffer);
+
+    if (!_appleTexture.loadFromFile("assets/Images/apple.png")) {
+        std::cerr << "Failed to load 'assets/Images/apple.png'" << std::endl;
+        exit(84);
+    }
+    _apple.setTexture(_appleTexture);
+    _apple.setScale(0.15f, 0.15f);
+
+    _score = score;
+
+    if (!_arcadeFont.loadFromFile("assets/Fonts/arcade_classic.ttf")) {
+        std::cerr << "Failed to load 'assets/Fonts/arcade_classic.ttf'" << std::endl;
+        exit(84);
+    }
+
+    _scoreText.setString("Score");
+    _scoreText.setFont(_arcadeFont);
+    _scoreText.setCharacterSize(80);
+    _scoreText.setFillColor(sf::Color::White);
+    _scoreText.setPosition(1550, 380);
+
+    _scoreValueText.setString("0");
+    _scoreValueText.setFont(_arcadeFont);
+    _scoreValueText.setCharacterSize(80);
+    _scoreValueText.setFillColor(sf::Color::White);
+    _scoreValueText.setPosition(1550, 480);
 }
 
-Game::~Game() = default;
+Game::~Game() {
+    if (_music.getStatus() == sf::SoundSource::Playing)
+        _music.stop();
+    std::cout << *_score << std::endl;
+}
 
 GameStatus Game::ManageInput(const std::shared_ptr<sf::RenderWindow> &window) {
-    if (!_isSnakeAlive)
+    if (!_isSnakeAlive) {
+        _music.stop();
         return GameStatus::END;
+    }
 
     sf::Event event{};
 
     if (window->pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             return GameStatus::CLOSE;
+        if (event.type == sf::Event::JoystickMoved) {
+            if (!_willSnakeTurn) {
+                float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+                float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+                if (x == 0 && y == -100 && _direction.first != 1) {
+                    _direction = {-1, 0};
+                    _willSnakeTurn = true;
+                } if (x == 0 && y == 100 && _direction.first != -1) {
+                    _direction = {1, 0};
+                    _willSnakeTurn = true;
+                } if (x == -100 && y == 0 && _direction.second != 1) {
+                    _direction = {0, -1};
+                    _willSnakeTurn = true;
+                } if (x == 100 && y == 0 && _direction.second != -1) {
+                    _direction = {0, 1};
+                    _willSnakeTurn = true;
+                }
+            }
+        }
     }
-    if (sf::Keyboard::isKeyPressed(UP) && _direction.first != 1)
-        _direction = {-1, 0};
-    if (sf::Keyboard::isKeyPressed(DOWN) && _direction.first != -1)
-        _direction = {1, 0};
-    if (sf::Keyboard::isKeyPressed(LEFT) && _direction.second != 1)
-        _direction = {0, -1};
-    if (sf::Keyboard::isKeyPressed(RIGHT) && _direction.second != -1)
-        _direction = {0, 1};
 
     if (sf::Keyboard::isKeyPressed(START))
         this->CreateApple();
@@ -65,8 +125,13 @@ GameStatus Game::ManageInput(const std::shared_ptr<sf::RenderWindow> &window) {
 }
 
 void Game::Display(const std::shared_ptr<sf::RenderWindow> &window) {
+    if (!_isSoundPlayed) {
+        _music.play();
+        _isSoundPlayed = true;
+    }
+
     _elapsedTime = std::chrono::system_clock::now() - _start;
-    if (_elapsedTime > std::chrono::milliseconds(500)) {
+    if (_elapsedTime > std::chrono::milliseconds(300)) {
         _start = std::chrono::system_clock::now();
         this->MoveSnake();
     }
@@ -75,12 +140,18 @@ void Game::Display(const std::shared_ptr<sf::RenderWindow> &window) {
 
     for (size_t i = 0; i < _map.size(); i++) {
         for (size_t j = 0; j < _map[i].size(); j++) {
-            _rectangle.setSize(sf::Vector2f(32, 32));
-            _rectangle.setPosition((float)j * 34 + 50, (float)i * 34 + 50);
+            _rectangle.setSize(sf::Vector2f(48, 48));
+            _rectangle.setPosition((float) j * 50 + 530, (float) i * 50 + 80);
             _rectangle.setFillColor(_colors[_map[i][j]]);
             window->draw(_rectangle);
         }
     }
+    _apple.setPosition((float) _applePos.second * 50 + 530, (float) _applePos.first * 50 + 80);
+
+    window->draw(_apple);
+    window->draw(_scoreText);
+    _scoreValueText.setString(std::to_string(*_score));
+    window->draw(_scoreValueText);
 }
 
 void Game::ClearMap() {
@@ -108,9 +179,18 @@ void Game::ClearMap() {
 
 void Game::MoveSnake() {
     if (_map[_headPos.first + _direction.first][_headPos.second + _direction.second] == 4) {
+        _eatSound.play();
+        *_score += 10;
         _tail.push_back(_tail[_tail.size() - 1]);
         this->CreateApple();
     }
+
+    if (_map[_headPos.first + _direction.first][_headPos.second + _direction.second] == 1
+        || _map[_headPos.first + _direction.first][_headPos.second + _direction.second] == 3) {
+        _isSnakeAlive = false;
+        return;
+    }
+
     for (size_t i = _tail.size() - 1; i > 0; i--) {
         _tail[i] = _tail[i - 1];
     }
@@ -118,8 +198,7 @@ void Game::MoveSnake() {
     _headPos.first += _direction.first;
     _headPos.second += _direction.second;
 
-    if (_map[_headPos.first][_headPos.second] == 1 || _map[_headPos.first][_headPos.second] == 3)
-        _isSnakeAlive = false;
+    _willSnakeTurn = false;
 }
 
 void Game::CreateApple() {
