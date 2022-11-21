@@ -51,6 +51,7 @@ To launch the game
 ```
 
 <br/>
+
 # 👤 Author
 
 **Antoine Podvin**
