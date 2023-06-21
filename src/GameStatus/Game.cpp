@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** Snake
+** Snake - https://github.com/antoinepod/Snake
 ** File description:
 ** Game.cpp
 */

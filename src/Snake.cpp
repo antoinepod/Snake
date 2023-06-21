@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2022
-** Snake
+** Snake - https://github.com/antoinepod/Snake
 ** File description:
-** Display.cpp
+** Snake.cpp
 */
 
 #include "Snake.hpp"
