@@ -1,7 +1,7 @@
 <h1 align="center">Welcome to my Snake 👋</h1>
 
 <br/>
-This project is a snake game made for arcade machines.
+This project is a snake game made for arcade machines, you need to use a controller with a joystick to be able to play.
 
 I made it in 2 days with C++ and SFML library, during my 2nd year at Epitech Lille.
 
