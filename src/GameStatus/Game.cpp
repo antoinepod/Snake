@@ -70,13 +70,13 @@ Game::Game(const std::shared_ptr<int>& score) {
     _scoreText.setFont(_arcadeFont);
     _scoreText.setCharacterSize(80);
     _scoreText.setFillColor(sf::Color::White);
-    _scoreText.setPosition(1550, 380);
+    _scoreText.setPosition(750, 940);
 
     _scoreValueText.setString("0");
     _scoreValueText.setFont(_arcadeFont);
     _scoreValueText.setCharacterSize(80);
     _scoreValueText.setFillColor(sf::Color::White);
-    _scoreValueText.setPosition(1550, 480);
+    _scoreValueText.setPosition(1050, 940);
 }
 
 Game::~Game() {
@@ -114,6 +114,21 @@ GameStatus Game::ManageInput(const std::shared_ptr<sf::RenderWindow> &window) {
                     _direction = {0, 1};
                     _willSnakeTurn = true;
                 }
+            }
+        }
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Up && _direction.first != 1) {
+                _direction = {-1, 0};
+                _willSnakeTurn = true;
+            } if (event.key.code == sf::Keyboard::Down && _direction.first != -1) {
+                _direction = {1, 0};
+                _willSnakeTurn = true;
+            } if (event.key.code == sf::Keyboard::Left && _direction.second != 1) {
+                _direction = {0, -1};
+                _willSnakeTurn = true;
+            } if (event.key.code == sf::Keyboard::Right && _direction.second != -1) {
+                _direction = {0, 1};
+                _willSnakeTurn = true;
             }
         }
     }

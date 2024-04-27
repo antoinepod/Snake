@@ -20,7 +20,7 @@ End::End(const std::shared_ptr<int>& score) {
         exit(84);
     }
 
-    _endText.setString("You    loosed   !");
+    _endText.setString("You    loose   !");
     _endText.setFont(_arcadeFont);
     _endText.setCharacterSize(80);
     _endText.setFillColor(sf::Color::Red);

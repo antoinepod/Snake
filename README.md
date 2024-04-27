@@ -1,7 +1,7 @@
 <h1 align="center">Welcome to my Snake 👋</h1>
 
 <br/>
-This project is a snake game made for arcade machines, you need to use a controller with a joystick to be able to play.
+This project is a snake game made for arcade machines.
 
 I made it in 2 days with C++ and SFML library, during my 2nd year at Epitech Lille.
 
@@ -14,6 +14,7 @@ I made it in 2 days with C++ and SFML library, during my 2nd year at Epitech Lil
 <li><a href="https://www.sfml-dev.org/">SFML</a></li>
 
 
+<br/>
 
 # ⚠️ Prerequisites
 Make sure you have C++, SFML and make installed on your computer
@@ -42,13 +43,22 @@ And compile it
 make
 ```
 
-# 🎮 Usage
+# 🚀 Usage
 
 To launch the game
 
 ```sh
 ./snake
 ```
+
+# 🎮 How to Play
+To play the game, you can use either the arrow keys or a joystick to control the snake's movement.
+
+The objective is to eat the food that appears on the screen and grow the snake as long as possible without hitting the walls or the snake's own body.
+
+The game ends when the snake collides with a wall or itself.
+
+Enjoy playing Snake!
 
 <br/>
 
