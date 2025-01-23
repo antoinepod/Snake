@@ -17,6 +17,8 @@ Game::Game(const std::shared_ptr<int>& score) {
 
     this->ClearMap();
 
+    _speed = 300;
+
     _headPos = {8, 9};
     _map[_headPos.first][_headPos.second] = 2;
     std::pair<int, int> tmp;
@@ -146,7 +148,7 @@ void Game::Display(const std::shared_ptr<sf::RenderWindow> &window) {
     }
 
     _elapsedTime = std::chrono::system_clock::now() - _start;
-    if (_elapsedTime > std::chrono::milliseconds(300)) {
+    if (_elapsedTime > std::chrono::milliseconds(_speed)) {
         _start = std::chrono::system_clock::now();
         this->MoveSnake();
     }
@@ -197,6 +199,8 @@ void Game::MoveSnake() {
         _eatSound.play();
         *_score += 10;
         _tail.push_back(_tail[_tail.size() - 1]);
+        if (_speed > 100)
+            _speed -= 10;
         this->CreateApple();
     }
 

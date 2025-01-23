@@ -24,6 +24,7 @@ public:
 private:
     std::chrono::time_point<std::chrono::system_clock> _start;
     std::chrono::duration<double> _elapsedTime{};
+    int _speed;
 
     sf::Font _arcadeFont;
 
